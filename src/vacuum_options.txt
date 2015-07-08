@@ -1,0 +1,3 @@
+char *,sink_file,'sink.dat'
+char *,out_file,'out.dat'
+int,verbose,0
