@@ -4,6 +4,9 @@
 *.obj
 *.elf
 
+# editor backup files
+*~
+
 # Precompiled Headers
 *.gch
 *.pch
