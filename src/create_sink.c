@@ -8,7 +8,7 @@
 
 #define CMD_LEN 32000
 
-void check_params(const Params *params);
+void check_params(Params *params);
 
 int main(int argc, char *argv[]) {
     long size, i, fill = -1;
@@ -50,9 +50,11 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
-void check_params(const Params *params) {
-    long req_size = (params->nr_sinks + NR_META_DATA_FIELDS)*sizeof(long);
-    if (params->meta_size < req_size) {
+void check_params(Params *params) {
+    long req_size = (NR_META_DATA_FIELDS + params->nr_sinks)*sizeof(long);
+    if (params->meta_size < 0) {
+        params->meta_size = req_size;
+    } else if (params->meta_size < req_size) {
         errx(EXIT_SIZE_ERR, "meta data size too small");
     }
 }
