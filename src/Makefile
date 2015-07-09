@@ -3,6 +3,7 @@ CFLAGS = -g -O2
 CPPFLAGS =
 LDFLAGS =
 LIBS =
+INSTALL_DIR = ../bin/
 
 DATA_OBJS = data_cl_params.o data_cl_params_aux.o sink_utils.o data_sink.o
 CREATE_OBJS = create_cl_params.o create_cl_params_aux.o create_sink.o
@@ -28,9 +29,9 @@ clean:
 	rm -f *.o $(APPS) core
 
 install: all
-	install create_sink ../bin
-	install data_sink ../bin
-	install vacuum_sink ../bin
+	install create_sink $(INSTALL_DIR)
+	install data_sink $(INSTALL_DIR)
+	install vacuum_sink $(INSTALL_DIR)
 
 weave: create_cl_params.h vacuum_cl_params.h data_cl_params.h
 
