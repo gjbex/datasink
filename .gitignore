@@ -37,3 +37,6 @@
 
 # bin directory
 bin
+
+# generated HTML documentation
+html_docs
