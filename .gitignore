@@ -6,6 +6,7 @@
 
 # editor backup files
 *~
+*.swp
 
 # Precompiled Headers
 *.gch
