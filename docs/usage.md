@@ -20,7 +20,7 @@ Datasink can be of help here, with a very minor change to the workflow, and none
 ```
 nr_cores=20
 
-create_sink  -nr_sinks ${nr_cores}  -sink_size 1048576  \
+create_sink  -nr_sinks ${nr_cores}  -sink_size 1mb  \
              -sink_file data.sink
 
 for id in `seq 0 $(( ${nr_cores} - 1 ));
