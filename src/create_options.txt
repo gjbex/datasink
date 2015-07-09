@@ -1,5 +1,5 @@
-long,sink_size,1024
-long,meta_size,1024
+char *,sink_size,'1024'
+char *,meta_size,'-1'
 long,nr_sinks,20
 char *,sink_file,'out.dat'
 int,verbose,0

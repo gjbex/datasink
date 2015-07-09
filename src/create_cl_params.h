@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 typedef struct {
-	long sink_size;
-	long meta_size;
+	char * sink_size;
+	char * meta_size;
 	long nr_sinks;
 	char * sink_file;
 	int verbose;

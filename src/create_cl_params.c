@@ -9,10 +9,16 @@
 #define MAX_CL_LINE_LEN 1024
 
 void initCL(Params *params) {
-	params->sink_size = 1024;
-	params->meta_size = 1024;
-	params->nr_sinks = 20;
 	int len;
+	len = strlen("1024");
+	if (!(params->sink_size = (char *) calloc(len + 1, sizeof(char))))
+		errx(EXIT_CL_ALLOC_FAIL, "can not allocate sink_size field");
+	strncpy(params->sink_size, "1024", len + 1);
+	len = strlen("-1");
+	if (!(params->meta_size = (char *) calloc(len + 1, sizeof(char))))
+		errx(EXIT_CL_ALLOC_FAIL, "can not allocate meta_size field");
+	strncpy(params->meta_size, "-1", len + 1);
+	params->nr_sinks = 20;
 	len = strlen("out.dat");
 	if (!(params->sink_file = (char *) calloc(len + 1, sizeof(char))))
 		errx(EXIT_CL_ALLOC_FAIL, "can not allocate sink_file field");
@@ -32,22 +38,32 @@ void parseCL(Params *params, int *argc, char **argv[]) {
 		if (!strncmp((*argv)[i], "-sink_size", 11)) {
 			shiftCL(&i, *argc, *argv);
 			argv_str = (*argv)[i];
-			if (!isLongCL(argv_str, 0)) {
-				fprintf(stderr, "### error: invalid value for option '-sink_size' of type long\n");
+			if (!1) {
+				fprintf(stderr, "### error: invalid value for option '-sink_size' of type char *\n");
 				exit(EXIT_CL_INVALID_VALUE);
 			}
-			params->sink_size = atol(argv_str);
+			char *tmp;
+			int len = strlen(argv_str);
+			free(params->sink_size);
+			if (!(tmp = (char *) calloc(len + 1, sizeof(char))))
+				errx(EXIT_CL_ALLOC_FAIL, "can not allocate char* field");
+			params->sink_size = strncpy(tmp, argv_str, len + 1);
 			i++;
 			continue;
 		}
 		if (!strncmp((*argv)[i], "-meta_size", 11)) {
 			shiftCL(&i, *argc, *argv);
 			argv_str = (*argv)[i];
-			if (!isLongCL(argv_str, 0)) {
-				fprintf(stderr, "### error: invalid value for option '-meta_size' of type long\n");
+			if (!1) {
+				fprintf(stderr, "### error: invalid value for option '-meta_size' of type char *\n");
 				exit(EXIT_CL_INVALID_VALUE);
 			}
-			params->meta_size = atol(argv_str);
+			char *tmp;
+			int len = strlen(argv_str);
+			free(params->meta_size);
+			if (!(tmp = (char *) calloc(len + 1, sizeof(char))))
+				errx(EXIT_CL_ALLOC_FAIL, "can not allocate char* field");
+			params->meta_size = strncpy(tmp, argv_str, len + 1);
 			i++;
 			continue;
 		}
@@ -110,19 +126,31 @@ void parseFileCL(Params *params, char *fileName) {
 		if (isCommentCL(line_str)) continue;
 		if (isEmptyLineCL(line_str)) continue;
 		if (sscanf(line_str, "sink_size = %[^\n]", argv_str) == 1) {
-			if (!isLongCL(argv_str, 0)) {
-				fprintf(stderr, "### error: invalid value for option '-sink_size' of type long\n");
+			if (!1) {
+				fprintf(stderr, "### error: invalid value for option '-sink_size' of type char *\n");
 				exit(EXIT_CL_INVALID_VALUE);
 			}
-			params->sink_size = atol(argv_str);
+			char *tmp;
+			int len = strlen(argv_str);
+			free(params->sink_size);
+			if (!(tmp = (char *) calloc(len + 1, sizeof(char))))
+				errx(EXIT_CL_ALLOC_FAIL, "can not allocate char* field");
+			params->sink_size = strncpy(tmp, argv_str, len + 1);
+			stripQuotesCL(params->sink_size);
 			continue;
 		}
 		if (sscanf(line_str, "meta_size = %[^\n]", argv_str) == 1) {
-			if (!isLongCL(argv_str, 0)) {
-				fprintf(stderr, "### error: invalid value for option '-meta_size' of type long\n");
+			if (!1) {
+				fprintf(stderr, "### error: invalid value for option '-meta_size' of type char *\n");
 				exit(EXIT_CL_INVALID_VALUE);
 			}
-			params->meta_size = atol(argv_str);
+			char *tmp;
+			int len = strlen(argv_str);
+			free(params->meta_size);
+			if (!(tmp = (char *) calloc(len + 1, sizeof(char))))
+				errx(EXIT_CL_ALLOC_FAIL, "can not allocate char* field");
+			params->meta_size = strncpy(tmp, argv_str, len + 1);
+			stripQuotesCL(params->meta_size);
 			continue;
 		}
 		if (sscanf(line_str, "nr_sinks = %[^\n]", argv_str) == 1) {
@@ -161,17 +189,19 @@ void parseFileCL(Params *params, char *fileName) {
 }
 
 void dumpCL(FILE *fp, char prefix[], Params *params) {
-	fprintf(fp, "%ssink_size = %ld\n", prefix, params->sink_size);
-	fprintf(fp, "%smeta_size = %ld\n", prefix, params->meta_size);
+	fprintf(fp, "%ssink_size = '%s'\n", prefix, params->sink_size);
+	fprintf(fp, "%smeta_size = '%s'\n", prefix, params->meta_size);
 	fprintf(fp, "%snr_sinks = %ld\n", prefix, params->nr_sinks);
 	fprintf(fp, "%ssink_file = '%s'\n", prefix, params->sink_file);
 	fprintf(fp, "%sverbose = %d\n", prefix, params->verbose);
 }
 
 void finalizeCL(Params *params) {
+	free(params->sink_size);
+	free(params->meta_size);
 	free(params->sink_file);
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_size <long integer>\n  -meta_size <long integer>\n  -nr_sinks <long integer>\n  -sink_file <string>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "  -sink_size <string>\n  -meta_size <string>\n  -nr_sinks <long integer>\n  -sink_file <string>\n  -verbose <integer>\n  -?: print this message");
 }

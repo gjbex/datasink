@@ -5,8 +5,9 @@ LDFLAGS =
 LIBS =
 INSTALL_DIR = ../bin/
 
+CREATE_OBJS = create_cl_params.o create_cl_params_aux.o sink_utils.o \
+              create_sink.o
 DATA_OBJS = data_cl_params.o data_cl_params_aux.o sink_utils.o data_sink.o
-CREATE_OBJS = create_cl_params.o create_cl_params_aux.o create_sink.o
 VACUUM_OBJS = vacuum_cl_params.o vacuum_cl_params_aux.o sink_utils.o \
               vacuum_sink.o
 APPS = data_sink create_sink vacuum_sink
