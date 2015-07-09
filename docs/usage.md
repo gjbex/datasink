@@ -32,10 +32,10 @@ wait
 
 vacuum_sink  -sink_file data_sink  -out_file all_ouput
 ```
-The `create_sink` command prepares a sink file `data.sink` that will be sued for output operations.  It contains meta data so that it can be handled by other datasink tools without the need to know how it was created exactly.
+The `create_sink` command prepares a sink file `data.sink` that will be sued for output operations.  It contains meta data so that it can be handled by other datasink tools without the need to know how it was created exactly.  For details, see [Creating sink files](create_sink.md).
 
-Rather than redirecting the standard output of processes to a file, it is piped through `data_sink` which will deal with the file I/O on behalf of the processes.
+Rather than redirecting the standard output of processes to a file, it is piped through `data_sink` which will deal with the file I/O on behalf of the processes.  For details, see [Writing data to a sink file](data_sink.md).
 
-Lastly, the sink file is cleaned up by running `vacuum_sink` that produces a file that is identical to the aggregated output in the original workflow.
+Lastly, the sink file is cleaned up by running `vacuum_sink` that produces a file that is identical to the aggregated output in the original workflow.  For details, see [Compacting results](vacuum_sink.md).
 
-Note that `data_sink` is agnostic about the nature of the processes' output, which may be text or binary.  However, for binary output, a simple concatenation of individual output will probably not result in a valid aggregated output file, so `split_sink` and a subsequent specialized aggregation step may be more appropriate in that case.
+Note that `data_sink` is agnostic about the nature of the processes' output, which may be text or binary.  However, for binary output, a simple concatenation of individual output will probably not result in a valid aggregated output file, so `split_sink` and a subsequent specialized aggregation step may be more appropriate in that case.  For a description of the sink file format, see [Sink file description](sink_file.md).
