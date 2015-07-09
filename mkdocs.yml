@@ -4,9 +4,10 @@ site_author: Geert Jan Bex (geertjan.bex@uhasselt.be)
 pages:
 - Introduction and motivation: 'index.md'
 - Use case: 'usage.md'
-- Creating sink files: 'create_sink.md'
-- Writing data to a sink file: 'data_sink.md'
-- Compacting results: 'vacuum_sink.md'
+- Coomands:
+    - Creating sink files: 'create_sink.md'
+    - Writing data to a sink file: 'data_sink.md'
+    - Compacting results: 'vacuum_sink.md'
 - Sink file description: 'sink_file.md'
 - Contact information: 'contact.md'
 site_dir: html_docs/datasink
