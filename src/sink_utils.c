@@ -43,3 +43,22 @@ int seek_meta_sink(FILE *fp, long id) {
     fseek(fp, (NR_META_DATA_FIELDS + id)*sizeof(long), SEEK_SET);
     return EXIT_SUCCESS;
 }
+
+long compute_size(char *str) {
+    char *end_ptr = str;
+    long size = strtol(str, &end_ptr, 10);
+    if (*end_ptr != '\0') {
+        if (*end_ptr == 'k' || *end_ptr == 'K') {
+            size *= 1024;
+        } else if (*end_ptr == 'm' || *end_ptr == 'M') {
+            size *= 1024*1024;
+        } else if (*end_ptr == 'g' || *end_ptr == 'G') {
+            size *= 1024*1024*1024;
+        } else if (!(*end_ptr == 'b' || *end_ptr == 'B')) {
+            errx(EXIT_ARG_ERR, "invalid size unit: '%c'", *end_ptr);
+        }
+    } else if (end_ptr == str) {
+        errx(EXIT_ARG_ERR, "invalid size specification: '%s'", str);
+    }
+    return size;
+}
