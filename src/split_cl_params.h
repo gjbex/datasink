@@ -1,13 +1,11 @@
-#ifndef CREATE_CL_PARAMS_HDR
-#define CREATE_CL_PARAMS_HDR
+#ifndef SPLIT_CL_PARAMS_HDR
+#define SPLIT_CL_PARAMS_HDR
 
 #include <stdio.h>
 
 typedef struct {
-	char * sink_size;
-	char * meta_size;
-	long nr_sinks;
 	char * sink_file;
+	char * out_file_base;
 	int verbose;
 } Params;
 
