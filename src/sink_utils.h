@@ -12,6 +12,7 @@
 #define EXIT_SIZE_ERR 7
 #define EXIT_DD_ERR 8
 #define EXIT_MEM_ERR 9
+#define EXIT_READ_ERR 10
 
 typedef struct {
     long meta_size;

@@ -30,6 +30,10 @@ int main(int argc, char *argv[]) {
     }
     for (id = 0; id < meta_data.nr_sinks; id++) {
         data_size = read_data_size(ifp, id);
+        if (data_size < 0) {
+            warnx("no data was written for id %ld\n", id);
+            continue;
+        }
         if (params.verbose) {
             fprintf(stderr, "%ld has %ld bytes\n", id, data_size);
         }

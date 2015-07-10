@@ -27,11 +27,16 @@ int main(int argc, char *argv[]) {
         char *file_name;
         int name_len = strlen(params.out_file_base) + 6;
         long data_size = read_data_size(ifp, id);
+        size_t count;
+        if (data_size < 0) {
+            warnx("no data was written for id %ld\n", id);
+            continue;
+        }
         seek_data(ifp, &meta_data, id);
         if ((file_name = (char *) malloc(sizeof(char)*name_len)) == NULL) {
             errx(EXIT_MEM_ERR, "can allocate file name");
         }
-        sprintf(file_name, "%s.%ld", params.out_file_base, id);
+        sprintf(file_name, "%s.%04ld", params.out_file_base, id);
         if ((ofp = fopen(file_name, "wb")) == NULL) {
             err(EXIT_OPEN_ERR, "can not open '%s'", file_name);
         }
@@ -40,7 +45,10 @@ int main(int argc, char *argv[]) {
                     data_size, file_name, id);
         }
         for (;;) {
-            fread(buffer, sizeof(char), BUFFER_SIZE, ifp);
+            count = fread(buffer, sizeof(char), BUFFER_SIZE, ifp);
+            if (count == 0 && data_size > 0) {
+                err(EXIT_READ_ERR, "read problem for id %ld", id);
+            }
             if (data_size > BUFFER_SIZE) {
                 fwrite(buffer, sizeof(char), BUFFER_SIZE, ofp);
                 data_size -= BUFFER_SIZE;
