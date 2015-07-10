@@ -11,3 +11,5 @@ The remaining part of the file consists of `nr_sink` sections of `sink_size` byt
 Hence the total file size of `file_size = meta_size + sink_size`.
 
 The sink file is agnostic of the data type written to the sink section, so that may be binary or text.
+
+Information about the sink file can be obtained by running the `info_sink` command, see [Sink file information](info_sink.md) for more information.
