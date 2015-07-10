@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     initCL(&params);
     parseCL(&params, &argc, &argv);
     if (params.verbose) {
-        dumpCL(stderr, "# ", &params);
+        dumpCL(stderr, "", &params);
     }
     if ((ifp = fopen(params.sink_file, "rb")) == NULL) {
         err(EXIT_OPEN_ERR, "can not open '%s'", params.sink_file);

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     initCL(&params);
     parseCL(&params, &argc, &argv);
     if (params.verbose) {
-        dumpCL(stderr, "# ", &params);
+        dumpCL(stderr, "", &params);
     }
     meta_data = convert_params(&params);
     if (params.verbose) {
