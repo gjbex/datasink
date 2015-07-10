@@ -10,7 +10,10 @@ CREATE_OBJS = create_cl_params.o create_cl_params_aux.o sink_utils.o \
 DATA_OBJS = data_cl_params.o data_cl_params_aux.o sink_utils.o data_sink.o
 VACUUM_OBJS = vacuum_cl_params.o vacuum_cl_params_aux.o sink_utils.o \
               vacuum_sink.o
-APPS = data_sink create_sink vacuum_sink
+SPLIT_OBJS = split_cl_params.o split_cl_params_aux.o sink_utils.o \
+             split_sink.o
+
+APPS = data_sink create_sink vacuum_sink split_sink
 
 all: $(APPS)
 
@@ -23,6 +26,9 @@ create_sink: $(CREATE_OBJS)
 vacuum_sink: $(VACUUM_OBJS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(VACUUM_OBJS) $(LDFLAGS) $(LIBS)
 
+split_sink: $(SPLIT_OBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(SPLIT_OBJS) $(LDFLAGS) $(LIBS)
+
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
@@ -33,8 +39,10 @@ install: all
 	install create_sink $(INSTALL_DIR)
 	install data_sink $(INSTALL_DIR)
 	install vacuum_sink $(INSTALL_DIR)
+	install split_sink $(INSTALL_DIR)
 
-weave: create_cl_params.h vacuum_cl_params.h data_cl_params.h
+weave: create_cl_params.h vacuum_cl_params.h data_cl_params.h \
+       split_cl_params.h
 
 %_cl_params.h: %_options.txt
 	weave -l C -b `basename $@ .h` -d $<

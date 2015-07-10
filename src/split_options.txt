@@ -1,0 +1,3 @@
+char *,sink_file,'data.sink'
+char *,out_file_base,'out.txt'
+int,verbose,0
