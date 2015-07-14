@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -O2
 CPPFLAGS =
 LDFLAGS =
-LIBS =
+LIBS = -lm
 INSTALL_DIR = ../bin/
 
 CREATE_OBJS = create_cl_params.o create_cl_params_aux.o sink_utils.o \
