@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     Meta_data meta_data;
     FILE *fp;
     long id, data_size, nr_unused = 0, nr_overrun = 0;
-    int field_width;
+    int id_field_width, byte_field_width;
     initCL(&params);
     parseCL(&params, &argc, &argv);
     if (params.verbose) {
@@ -26,11 +26,13 @@ int main(int argc, char *argv[]) {
     printf("meta size = %ld byte\n", meta_data.meta_size);
     printf("sink size = %ld byte\n", meta_data.sink_size);
     printf("number of sinks = %ld\n", meta_data.nr_sinks);
-    field_width = compute_field_width(meta_data.nr_sinks);
+    id_field_width = compute_field_width(meta_data.nr_sinks);
+    byte_field_width = compute_field_width(meta_data.sink_size);
     for (id = 0; id < meta_data.nr_sinks; id++) {
         data_size = read_data_size(fp, id);
         if (data_size >= 0) {
-            printf("size id %5ld = %ld byte", id, data_size);
+            printf("size id %*ld = %*ld byte", id_field_width, id,
+                    byte_field_width, data_size);
             if (data_size > meta_data.sink_size) {
                 nr_overrun++;
                 printf(" > %ld, %ld byte lost", meta_data.sink_size,
@@ -38,7 +40,7 @@ int main(int argc, char *argv[]) {
             }
             printf("\n");
         } else {
-            printf("size id %5ld unused\n", id);
+            printf("size id %*ld unused\n", id_field_width, id);
             nr_unused++;
         }
     }
