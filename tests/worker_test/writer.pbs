@@ -6,8 +6,6 @@ module load Python/2.7.6-foss-2014a
 module load datasink/1.0
 cd ${PBS_O_WORKDIR}
 
-echo "$id $char $n $repeat $sleep $var"
-
 ./writer.py  --char $char  --n $n  --repeat $repeat  \
              --sleep $sleep   --var $var  | data_sink  -id $id \
                                                        -sink_file data.sink
