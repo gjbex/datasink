@@ -25,6 +25,9 @@ int main(int argc, char *argv[]) {
     if (params.verbose) {
         dumpCL(stderr, "", &params);
     }
+    if (params.id < 0) {
+        errx(EXIT_INVALID_ID, "sink ID %ld invalid", params.id);
+    }
     if ((fp = fopen(params.sink_file, "rb+")) == NULL) {
         err(EXIT_OPEN_ERR, "can not open '%s'", params.sink_file);
     }
@@ -38,6 +41,10 @@ int main(int argc, char *argv[]) {
     if (params.verbose) {
         show_meta_data(&meta_data);
     }
+    if (params.id >= meta_data.nr_sinks) {
+        errx(EXIT_INVALID_ID, "sink ID %ld > %ld",
+                params.id, meta_data.nr_sinks - 1);
+    }
     seek_data(fp, &meta_data, params.id);
     for (;;) {
         int count = fread(buffer, sizeof(char), BUFF_SIZE, stdin);
@@ -50,6 +57,8 @@ int main(int argc, char *argv[]) {
         } else if (!is_overrun) {
             is_overrun = TRUE;
             fwrite(buffer, sizeof(char), size - meta_data.sink_size, fp);
+            warnx("data written to sink %ld exceeds sink size, data loss\n",
+                    params.id); 
         }
     }
     fseek(fp, (3 + params.id)*sizeof(long), SEEK_SET);
