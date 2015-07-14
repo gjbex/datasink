@@ -1,0 +1,5 @@
+#!/bin/bash -l
+
+module load datasink/1.0
+
+vacuum_sink  -sink_file data.sink  -out_file data.txt

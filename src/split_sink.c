@@ -32,6 +32,10 @@ int main(int argc, char *argv[]) {
             warnx("no data was written for id %ld\n", id);
             continue;
         }
+        if (data_size > meta_data.sink_size) {
+            warnx("%ld byte written to sink %ld, capacity exceede by %ld byte", data_size, id, data_size - meta_data.sink_size);
+            data_size = meta_data.sink_size;
+        }
         seek_data(ifp, &meta_data, id);
         if ((file_name = (char *) malloc(sizeof(char)*name_len)) == NULL) {
             errx(EXIT_MEM_ERR, "can allocate file name");
