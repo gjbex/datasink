@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     }
     pre_allocate(&meta_data, params.sink_file, params.verbose);
     if ((fp = fopen(params.sink_file, "rb+")) == NULL) {
-        err(EXIT_OPEN_ERR, "can not open %s", params.sink_file);
+        err(EXIT_OPEN_ERR, "can not open '%s'", params.sink_file);
     }
     fwrite(&meta_data.meta_size, sizeof(long), 1, fp);
     fwrite(&meta_data.sink_size, sizeof(long), 1, fp);
