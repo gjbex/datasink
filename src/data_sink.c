@@ -62,9 +62,8 @@ int main(int argc, char *argv[]) {
                     params.id); 
         }
     }
-    fseek(fp, (3 + params.id)*sizeof(long), SEEK_SET);
+    seek_meta_sink(fp, params.id);
     fwrite(&size, sizeof(long), 1, fp);
-    fseek(fp, 512, SEEK_SET);
     if (params.verbose) {
         gettimeofday(&start_time, NULL);
         fprintf(stderr, "%ld closed '%s' at %d.%d\n", params.id,
