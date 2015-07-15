@@ -63,3 +63,25 @@ long compute_size(char *str) {
     }
     return size;
 }
+
+int pre_allocate(const Meta_data *meta_data, const char *file_name,
+                 int verbose) {
+    char cmd[CMD_LEN];
+    int status;
+    long size = meta_data->meta_size +
+        meta_data->nr_sinks*meta_data->sink_size;
+    if (size <= 2147483647) {
+        sprintf(cmd, "dd if=/dev/zero of=%s bs=1 count=%ld",
+                file_name, size);
+        status = system(cmd);
+        if (status == -1) {
+            err(EXIT_DD_ERR, "could not fork dd");
+        } else if (status != 0) {
+            err(EXIT_DD_ERR, "dd exited with code %d\n",
+                    WEXITSTATUS(status));
+        }
+    } else {
+        errx(EXIT_SIZE_ERR, "file size too large");
+    }
+    return EXIT_SUCCESS;
+}

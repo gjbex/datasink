@@ -26,7 +26,11 @@ long read_data_size(FILE *fp, long id);
 int seek_data(FILE *fp, const Meta_data *meta_data, long id);
 int seek_meta_sink(FILE *fp, long id);
 long compute_size(char *str);
+int pre_allocate(const Meta_data *meta_data, const char *file_name,
+                 int verbose);
 
 #define NR_META_DATA_FIELDS 3
+#define CMD_LEN 32000
+
 
 #endif
