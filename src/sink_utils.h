@@ -14,6 +14,9 @@
 #define EXIT_MEM_ERR 9
 #define EXIT_INVALID_ID 10
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct {
     long meta_size;
     long sink_size;
@@ -25,6 +28,7 @@ int show_meta_data(const Meta_data *meta_data);
 long read_data_size(FILE *fp, long id);
 int seek_data(FILE *fp, const Meta_data *meta_data, long id);
 long compute_size(char *str);
+int check_data_size(long id, long * data_size, const Meta_data *meta_data);
 
 #define NR_META_DATA_FIELDS 3
 
