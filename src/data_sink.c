@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
         show_meta_data(&meta_data);
     }
     if (params.id >= meta_data.nr_sinks) {
+        fclose(fp);
         errx(EXIT_INVALID_ID, "sink ID %ld > %ld",
                 params.id, meta_data.nr_sinks - 1);
     }
