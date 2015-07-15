@@ -71,8 +71,11 @@ int pre_allocate(const Meta_data *meta_data, const char *file_name,
     long size = meta_data->meta_size +
         meta_data->nr_sinks*meta_data->sink_size;
     if (size <= 2147483647) {
-        sprintf(cmd, "dd if=/dev/zero of=%s bs=1 count=%ld",
-                file_name, size);
+        sprintf(cmd, "dd if=/dev/zero of=%s bs=1 count=%ld%s",
+                file_name, size, verbose ? "" : " 2> /dev/null");
+        if (verbose) {
+            fprintf(stderr, "executing '%s'\n", cmd);
+        }
         status = system(cmd);
         if (status == -1) {
             err(EXIT_DD_ERR, "could not fork dd");
