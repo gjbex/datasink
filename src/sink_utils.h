@@ -24,6 +24,7 @@ int read_meta_data(FILE *fp, Meta_data *meta_data);
 int show_meta_data(const Meta_data *meta_data);
 long read_data_size(FILE *fp, long id);
 int seek_data(FILE *fp, const Meta_data *meta_data, long id);
+int seek_meta_sink(FILE *fp, long id);
 long compute_size(char *str);
 
 #define NR_META_DATA_FIELDS 3

@@ -24,9 +24,8 @@ int show_meta_data(const Meta_data *meta_data) {
 }
 
 long read_data_size(FILE *fp, long id) {
-    long data_size, offset = (NR_META_DATA_FIELDS + id)*sizeof(long);
-    if (fseek(fp, offset, SEEK_SET) != 0)
-        err(EXIT_SEEK_ERR, "can not seek to %ld", offset);
+    long data_size;
+    seek_meta_sink(fp, id);
     if (fread(&data_size, sizeof(long), 1, fp) == 0)
         err(EXIT_READ_ERR, "can not data size");
     return data_size;
@@ -40,7 +39,9 @@ int seek_data(FILE *fp, const Meta_data *meta_data, long id) {
 }
 
 int seek_meta_sink(FILE *fp, long id) {
-    fseek(fp, (NR_META_DATA_FIELDS + id)*sizeof(long), SEEK_SET);
+    long offset = (NR_META_DATA_FIELDS + id)*sizeof(long);
+    if (fseek(fp, offset, SEEK_SET) != 0)
+        err(EXIT_SEEK_ERR, "can not seek to %ld", offset);
     return EXIT_SUCCESS;
 }
 
