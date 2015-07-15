@@ -64,12 +64,13 @@ long compute_size(char *str) {
     return size;
 }
 
-int pre_allocate(const Meta_data *meta_data, const char *file_name,
-                 int verbose) {
+long compute_sink_file_size(const Meta_data *meta_data) {
+    return meta_data->meta_size + meta_data->nr_sinks*meta_data->sink_size;
+}
+
+int pre_allocate(const char *file_name, long size, int verbose) {
     char cmd[CMD_LEN];
     int status;
-    long size = meta_data->meta_size +
-        meta_data->nr_sinks*meta_data->sink_size;
     if (size <= 2147483647) {
         sprintf(cmd, "dd if=/dev/zero of=%s bs=1 count=%ld%s",
                 file_name, size, verbose ? "" : " 2> /dev/null");

@@ -24,7 +24,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "sink_size = %ld\n", meta_data.sink_size);
         fprintf(stderr, "nr_sinks  = %ld\n", meta_data.nr_sinks);
     }
-    pre_allocate(&meta_data, params.sink_file, params.verbose);
+    size = compute_sink_file_size(&meta_data);
+    pre_allocate(params.sink_file, size, params.verbose);
     if ((fp = fopen(params.sink_file, "rb+")) == NULL) {
         err(EXIT_OPEN_ERR, "can not open '%s'", params.sink_file);
     }
