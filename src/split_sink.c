@@ -28,20 +28,19 @@ int main(int argc, char *argv[]) {
         int name_len = strlen(params.out_file_base) + 6;
         long data_size = read_data_size(ifp, id);
         size_t count;
-        if (data_size < 0) {
-            warnx("no data was written for id %ld\n", id);
+        if (!check_data_size(id, &data_size, &meta_data)) {
             continue;
         }
-        if (data_size > meta_data.sink_size) {
-            warnx("%ld byte written to sink %ld, capacity exceede by %ld byte", data_size, id, data_size - meta_data.sink_size);
-            data_size = meta_data.sink_size;
+        if (params.verbose) {
+            fprintf(stderr, "sink %ld has %ld byte\n", id, data_size);
         }
         seek_data(ifp, &meta_data, id);
         if ((file_name = (char *) malloc(sizeof(char)*name_len)) == NULL) {
             errx(EXIT_MEM_ERR, "can allocate file name");
         }
         sprintf(file_name, "%s.%04ld", params.out_file_base, id);
-        if ((ofp = fopen(file_name, "wb")) == NULL) {
+        pre_allocate(file_name, data_size, params.verbose);
+        if ((ofp = fopen(file_name, "rb+")) == NULL) {
             err(EXIT_OPEN_ERR, "can not open '%s'", file_name);
         }
         if (params.verbose) {
