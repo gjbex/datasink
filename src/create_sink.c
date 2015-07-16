@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 Meta_data convert_params(Params *params) {
     Meta_data meta_data;
     long req_size = (NR_META_DATA_FIELDS + params->nr_sinks)*sizeof(long);
-    meta_data.sink_size = compute_size(params->sink_size);
+    meta_data.sink_size = convert_size_units(params->sink_size);
     meta_data.nr_sinks = params->nr_sinks;
     if (meta_data.meta_size < 0) {
         meta_data.meta_size = req_size;

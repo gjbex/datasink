@@ -25,7 +25,7 @@ int show_meta_data(const Meta_data *meta_data);
 long read_data_size(FILE *fp, long id);
 int seek_data(FILE *fp, const Meta_data *meta_data, long id);
 int seek_meta_sink(FILE *fp, long id);
-long compute_size(char *str);
+long convert_size_units(char *str);
 long compute_sink_file_size(const Meta_data *meta_data);
 int pre_allocate(const char *file_name, long size, int verbose);
 

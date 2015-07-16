@@ -45,7 +45,7 @@ int seek_meta_sink(FILE *fp, long id) {
     return EXIT_SUCCESS;
 }
 
-long compute_size(char *str) {
+long convert_size_units(char *str) {
     char *end_ptr = str;
     long size = strtol(str, &end_ptr, 10);
     if (*end_ptr != '\0') {
