@@ -24,9 +24,8 @@ int show_meta_data(const Meta_data *meta_data) {
 }
 
 long read_data_size(FILE *fp, long id) {
-    long data_size, offset = (NR_META_DATA_FIELDS + id)*sizeof(long);
-    if (fseek(fp, offset, SEEK_SET) != 0)
-        err(EXIT_SEEK_ERR, "can not seek to %ld", offset);
+    long data_size;
+    seek_meta_sink(fp, id);
     if (fread(&data_size, sizeof(long), 1, fp) == 0)
         err(EXIT_READ_ERR, "can not data size");
     return data_size;
@@ -40,11 +39,13 @@ int seek_data(FILE *fp, const Meta_data *meta_data, long id) {
 }
 
 int seek_meta_sink(FILE *fp, long id) {
-    fseek(fp, (NR_META_DATA_FIELDS + id)*sizeof(long), SEEK_SET);
+    long offset = (NR_META_DATA_FIELDS + id)*sizeof(long);
+    if (fseek(fp, offset, SEEK_SET) != 0)
+        err(EXIT_SEEK_ERR, "can not seek to %ld", offset);
     return EXIT_SUCCESS;
 }
 
-long compute_size(char *str) {
+long convert_size_units(char *str) {
     char *end_ptr = str;
     long size = strtol(str, &end_ptr, 10);
     if (*end_ptr != '\0') {
@@ -75,4 +76,45 @@ int check_data_size(long id, long * data_size,
         return FALSE;
     }
     return TRUE;
+}
+
+long compute_sink_file_size(const Meta_data *meta_data) {
+    return meta_data->meta_size + meta_data->nr_sinks*meta_data->sink_size;
+}
+
+int pre_allocate(const char *file_name, long size, int verbose) {
+    char cmd[CMD_LEN];
+    int status;
+    if (size <= 2147483647) {
+        sprintf(cmd, "dd if=/dev/zero of=%s bs=1 count=%ld%s",
+                file_name, size, verbose ? "" : " 2> /dev/null");
+        if (verbose) {
+            fprintf(stderr, "executing '%s'\n", cmd);
+        }
+        status = system(cmd);
+        if (status == -1) {
+            err(EXIT_DD_ERR, "could not fork dd");
+        } else if (status != 0) {
+            err(EXIT_DD_ERR, "dd exited with code %d\n",
+                    WEXITSTATUS(status));
+        }
+    } else {
+        errx(EXIT_SIZE_ERR, "file size too large");
+    }
+    return EXIT_SUCCESS;
+}
+
+long compute_total_data_size(FILE *fp) {
+    long total_size = 0, id, data_size;
+    Meta_data meta_data;
+    read_meta_data(fp, &meta_data);
+    for (id = 0; id < meta_data.nr_sinks; id++) {
+        data_size = read_data_size(fp, id);
+        if (data_size > meta_data.sink_size) {
+            total_size += meta_data.sink_size;
+        } else if (data_size >= 0) {
+            total_size += data_size;
+        }
+    }
+    return total_size;
 }
