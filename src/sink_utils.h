@@ -28,6 +28,7 @@ int seek_meta_sink(FILE *fp, long id);
 long convert_size_units(char *str);
 long compute_sink_file_size(const Meta_data *meta_data);
 int pre_allocate(const char *file_name, long size, int verbose);
+long compute_total_data_size(FILE *fp);
 
 #define NR_META_DATA_FIELDS 3
 #define CMD_LEN 32000

@@ -89,3 +89,18 @@ int pre_allocate(const char *file_name, long size, int verbose) {
     }
     return EXIT_SUCCESS;
 }
+
+long compute_total_data_size(FILE *fp) {
+    long total_size = 0, id, data_size;
+    Meta_data meta_data;
+    read_meta_data(fp, &meta_data);
+    for (id = 0; id < meta_data.nr_sinks; id++) {
+        data_size = read_data_size(fp, id);
+        if (data_size > meta_data.sink_size) {
+            total_size += meta_data.sink_size;
+        } else if (data_size >= 0) {
+            total_size += data_size;
+        }
+    }
+    return total_size;
+}
