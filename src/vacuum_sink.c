@@ -30,16 +30,11 @@ int main(int argc, char *argv[]) {
     }
     for (id = 0; id < meta_data.nr_sinks; id++) {
         data_size = read_data_size(ifp, id);
-        if (data_size > meta_data.sink_size) {
-            warnx("%ld byte written to sink %ld, capacity exceede by %ld byte", data_size, id, data_size - meta_data.sink_size);
-            data_size = meta_data.sink_size;
-        }
-        if (data_size < 0) {
-            warnx("no data was written for id %ld\n", id);
-            continue;
-        }
         if (params.verbose) {
             fprintf(stderr, "%ld has %ld bytes\n", id, data_size);
+        }
+        if (!check_data_size(id, &data_size, &meta_data)) {
+            continue;
         }
         seek_data(ifp, &meta_data, id);
         while (data_size > 0) {

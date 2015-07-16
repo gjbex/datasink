@@ -28,13 +28,11 @@ int main(int argc, char *argv[]) {
         int name_len = strlen(params.out_file_base) + 6;
         long data_size = read_data_size(ifp, id);
         size_t count;
-        if (data_size < 0) {
-            warnx("no data was written for id %ld\n", id);
-            continue;
+        if (params.verbose) {
+            fprintf(stderr, "%ld has %ld bytes\n", id, data_size);
         }
-        if (data_size > meta_data.sink_size) {
-            warnx("%ld byte written to sink %ld, capacity exceede by %ld byte", data_size, id, data_size - meta_data.sink_size);
-            data_size = meta_data.sink_size;
+        if (!check_data_size(id, &data_size, &meta_data)) {
+            continue;
         }
         seek_data(ifp, &meta_data, id);
         if ((file_name = (char *) malloc(sizeof(char)*name_len)) == NULL) {

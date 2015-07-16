@@ -8,8 +8,6 @@
 #include "data_cl_params.h"
 
 #define BUFF_SIZE 1024
-#define TRUE 1
-#define FALSE 0
 
 int main(int argc, char *argv[]) {
     Params params;
