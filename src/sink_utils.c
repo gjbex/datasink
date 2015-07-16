@@ -118,3 +118,15 @@ long compute_total_data_size(FILE *fp) {
     }
     return total_size;
 }
+
+int check_sink_id(long id, const Meta_data *meta_data, FILE *fp) {
+    if (id >= meta_data->nr_sinks) {
+        fclose(fp);
+        errx(EXIT_INVALID_ID, "sink ID %ld > %ld", id,
+                meta_data->nr_sinks - 1);
+    } else if (id < 0) {
+        fclose(fp);
+        errx(EXIT_INVALID_ID, "sink ID %ld < 0", id);
+    }
+    return EXIT_SUCCESS;
+}
