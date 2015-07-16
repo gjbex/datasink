@@ -17,6 +17,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define NR_META_DATA_FIELDS 3
+#define CMD_LEN 32000
+
 typedef struct {
     long meta_size;
     long sink_size;
@@ -33,9 +36,5 @@ int check_data_size(long id, long * data_size, const Meta_data *meta_data);
 long compute_sink_file_size(const Meta_data *meta_data);
 int pre_allocate(const char *file_name, long size, int verbose);
 long compute_total_data_size(FILE *fp);
-
-#define NR_META_DATA_FIELDS 3
-#define CMD_LEN 32000
-
 
 #endif
