@@ -14,8 +14,9 @@ SPLIT_OBJS = split_cl_params.o split_cl_params_aux.o sink_utils.o \
              split_sink.o
 INFO_OBJS = info_cl_params.o info_cl_params_aux.o sink_utils.o \
             info_sink.o
+WELL_OBJS = well_cl_params.o well_cl_params_aux.o sink_utils.o data_well.o
 
-APPS = data_sink create_sink vacuum_sink split_sink info_sink
+APPS = data_sink create_sink vacuum_sink split_sink info_sink data_well
 
 all: $(APPS)
 
@@ -37,6 +38,9 @@ info_sink: $(INFO_OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
+data_well: $(WELL_OBJS)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $(WELL_OBJS) $(LDFLAGS) $(LIBS)
+
 clean:
 	rm -f *.o $(APPS) core
 
@@ -46,9 +50,10 @@ install: all
 	install vacuum_sink $(INSTALL_DIR)
 	install split_sink $(INSTALL_DIR)
 	install info_sink $(INSTALL_DIR)
+	install data_well $(INSTALL_DIR)
 
 weave: create_cl_params.h vacuum_cl_params.h data_cl_params.h \
-       split_cl_params.h info_cl_params.h
+       split_cl_params.h info_cl_params.h well_cl_params.h
 
 %_cl_params.h: %_options.txt
 	weave -l C -b `basename $@ .h` -d $<
