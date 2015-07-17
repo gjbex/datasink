@@ -110,5 +110,5 @@ void finalizeCL(Params *params) {
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_file <string>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "  -sink_file <string>: sink file to get information on (default:\n                       'data.sink')\n  -verbose <integer>: write debug information to standard error\n                      (default: 0)\n  -?: print this message");
 }
