@@ -39,11 +39,7 @@ int main(int argc, char *argv[]) {
     if (params.verbose) {
         show_meta_data(&meta_data);
     }
-    if (params.id >= meta_data.nr_sinks) {
-        fclose(fp);
-        errx(EXIT_INVALID_ID, "sink ID %ld > %ld",
-                params.id, meta_data.nr_sinks - 1);
-    }
+    check_sink_id(params.id, &meta_data, fp);
     seek_data(fp, &meta_data, params.id);
     for (;;) {
         int count = fread(buffer, sizeof(char), BUFF_SIZE, stdin);
