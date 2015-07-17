@@ -7,3 +7,5 @@ split_sink  -sink_file data.sink  -out_file_base out.txt
 would result in `nr_sink` files named `out.txt.0000`, `out.txt.0001`, ..., that each contain the data written by process `0`, `1`, ..., respectively.
 
 Optionally, `split_sink` can produce feedback useful for tuning and/or debugging.  The `-verbose` flag allows to set the level of information printed to standard error.  For level 0 there is no feedback, level ` provides run time information, higher levels may be added in future.
+
+Help on the avaible command line options for this command can be obtained using the `-?` flag.
