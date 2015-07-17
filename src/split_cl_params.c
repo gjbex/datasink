@@ -14,10 +14,10 @@ void initCL(Params *params) {
 	if (!(params->sink_file = (char *) calloc(len + 1, sizeof(char))))
 		errx(EXIT_CL_ALLOC_FAIL, "can not allocate sink_file field");
 	strncpy(params->sink_file, "data.sink", len + 1);
-	len = strlen("out.txt");
+	len = strlen("out.dat");
 	if (!(params->out_file_base = (char *) calloc(len + 1, sizeof(char))))
 		errx(EXIT_CL_ALLOC_FAIL, "can not allocate out_file_base field");
-	strncpy(params->out_file_base, "out.txt", len + 1);
+	strncpy(params->out_file_base, "out.dat", len + 1);
 	params->verbose = 0;
 }
 
@@ -146,5 +146,5 @@ void finalizeCL(Params *params) {
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_file <string>\n  -out_file_base <string>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "  -sink_file <string>: sink file to use (default: 'data.sink')\n  -out_file_base <string>: base file name for output, sink IDs will be\n                           added (default: 'out.dat')\n  -verbose <integer>: write debug information to standard error\n                      (default: 0)\n  -?: print this message");
 }
