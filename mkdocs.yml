@@ -9,6 +9,7 @@ pages:
     - Writing data to a sink file: 'data_sink.md'
     - Compacting results: 'vacuum_sink.md'
     - Splitting results: 'split_sink.md'
+    - Reading data from a sink file: 'data_well.md'
     - Sink file information: 'info_sink.md'
 - Sink file description: 'sink_file.md'
 - Contact information: 'contact.md'
