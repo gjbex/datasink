@@ -38,6 +38,14 @@ int seek_data(FILE *fp, const Meta_data *meta_data, long id) {
     return EXIT_SUCCESS;
 }
 
+int seek_offset_data(FILE *fp, const Meta_data *meta_data, long id,
+                     long end) {
+    long offset = meta_data->meta_size + id*meta_data->sink_size + end;
+    if (fseek(fp, offset, SEEK_SET) != 0)
+        err(EXIT_SEEK_ERR, "can not seek to %ld", offset);
+    return EXIT_SUCCESS;
+}
+
 int seek_meta_sink(FILE *fp, long id) {
     long offset = (NR_META_DATA_FIELDS + id)*sizeof(long);
     if (fseek(fp, offset, SEEK_SET) != 0)
