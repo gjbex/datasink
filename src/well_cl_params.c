@@ -131,5 +131,5 @@ void finalizeCL(Params *params) {
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_file <string>\n  -id <long integer>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "usage: well  -sink_file <string> -id <long integer> -verbose <integer> -? \n  read data from sink ID in sink file\n  -sink_file <string>: data sink file to read from (default:\n                       'data.sink')\n  -id <long integer>: sink ID to read from (default: -1)\n  -verbose <integer>: write debug information to standard error\n                      (default: 0)\n  -?: print this message");
 }

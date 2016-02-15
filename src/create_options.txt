@@ -1,5 +1,5 @@
-char *,sink_size,'1024'
-char *,meta_size,'-1'
-long,nr_sinks,20
-char *,sink_file,'out.dat'
-int,verbose,0
+char *	sink_size	'''1024'''	size of the data for sinks, units b, kb, mb
+char *	meta_size	'''-1'''	size for the meta data, advanced option
+long	nr_sinks	20	number of sinks in the sink file
+char *	sink_file	'''data.sink'''	sink file name
+int	verbose	0	write debug information to standard error

@@ -4,3 +4,5 @@ info_sink  -sink_file data.sink
 ```
 
 For debugging purposes, the `-verbose` flag allows to set the level of information printed to standard error.  For level 0 there is no feedback, level ` provides run time information, higher levels may be added in future.
+
+Help on the avaible command line options for this command can be obtained using the `-?` flag.

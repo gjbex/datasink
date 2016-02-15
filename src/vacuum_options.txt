@@ -1,3 +1,3 @@
-char *,sink_file,'sink.dat'
-char *,out_file,'out.dat'
-int,verbose,0
+char *	sink_file	'''data.sink'''	sink file to use
+char *	out_file	'''out.dat'''	output file to produce
+int	verbose	0	write debug information to standard error

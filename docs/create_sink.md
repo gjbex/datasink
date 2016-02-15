@@ -11,3 +11,5 @@ The sink size can be specified in byte (no unit), kb, mb or gb.
 Optionally, the meta data size can be set explicitly, however, use cases for this are limited.  The `-meta_size` allows to specify the size of the meta data section in bytes, or the same units as accepted for the sink size.
 
 For debugging purposes, the `-verbose` flag allows to set the level of information printed to standard error.  For level 0 there is no feedback, level ` provides run time information, higher levels may be added in future.
+
+Help on the avaible command line options for this command can be obtained using the `-?` flag.

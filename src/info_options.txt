@@ -1,2 +1,2 @@
-char *,sink_file,'data.sink'
-int,verbose,0
+char *	sink_file	'''data.sink'''	sink file to get information on
+int	verbose	0	write debug information to standard error

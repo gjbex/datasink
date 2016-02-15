@@ -16,6 +16,7 @@ void initCL(Params *params) {
 	strncpy(params->sink_file, "data.sink", len + 1);
 	params->id = -1;
 	params->verbose = 0;
+	params->append = false;
 }
 
 void parseCL(Params *params, int *argc, char **argv[]) {
@@ -62,6 +63,11 @@ void parseCL(Params *params, int *argc, char **argv[]) {
 				exit(EXIT_CL_INVALID_VALUE);
 			}
 			params->verbose = atoi(argv_str);
+			i++;
+			continue;
+		}
+		if (!strncmp((*argv)[i], "-append", 8)) {
+			params->append = true;
 			i++;
 			continue;
 		}
@@ -115,6 +121,20 @@ void parseFileCL(Params *params, char *fileName) {
 			params->verbose = atoi(argv_str);
 			continue;
 		}
+		if (sscanf(line_str, "append = %[^\n]", argv_str) == 1) {
+			if (!1) {
+				fprintf(stderr, "### error: invalid value for option '-append' of type bool\n");
+				exit(EXIT_CL_INVALID_VALUE);
+			}
+			if (!strncmp("false", argv_str, 6)) {
+				params->append = false;
+			} else if (!strncmp("true", argv_str, 5)) {
+				params->append = true;
+			} else {
+				params->append = atoi(argv_str);
+			}
+			continue;
+		}
 		fprintf(stderr, "### warning, line can not be parsed: '%s'\n", line_str);
 	}
 	fclose(fp);
@@ -124,6 +144,7 @@ void dumpCL(FILE *fp, char prefix[], Params *params) {
 	fprintf(fp, "%ssink_file = '%s'\n", prefix, params->sink_file);
 	fprintf(fp, "%sid = %ld\n", prefix, params->id);
 	fprintf(fp, "%sverbose = %d\n", prefix, params->verbose);
+	fprintf(fp, "%sappend = %d\n", prefix, params->append);
 }
 
 void finalizeCL(Params *params) {
@@ -131,5 +152,5 @@ void finalizeCL(Params *params) {
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_file <string>\n  -id <long integer>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "  -sink_file <string>: data sink file to use (default: 'data.sink')\n  -id <long integer>: sink ID to use (default: -1)\n  -verbose <integer>: write debug information to standard error\n                      (default: 0)\n  -append: append to sink\n  -?: print this message");
 }

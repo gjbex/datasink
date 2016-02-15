@@ -19,10 +19,10 @@ void initCL(Params *params) {
 		errx(EXIT_CL_ALLOC_FAIL, "can not allocate meta_size field");
 	strncpy(params->meta_size, "-1", len + 1);
 	params->nr_sinks = 20;
-	len = strlen("out.dat");
+	len = strlen("data.sink");
 	if (!(params->sink_file = (char *) calloc(len + 1, sizeof(char))))
 		errx(EXIT_CL_ALLOC_FAIL, "can not allocate sink_file field");
-	strncpy(params->sink_file, "out.dat", len + 1);
+	strncpy(params->sink_file, "data.sink", len + 1);
 	params->verbose = 0;
 }
 
@@ -203,5 +203,5 @@ void finalizeCL(Params *params) {
 }
 
 void printHelpCL(FILE *fp) {
-	fprintf(fp, "  -sink_size <string>\n  -meta_size <string>\n  -nr_sinks <long integer>\n  -sink_file <string>\n  -verbose <integer>\n  -?: print this message");
+	fprintf(fp, "  -sink_size <string>: size of the data for sinks, units b, kb, mb\n                       (default: '1024')\n  -meta_size <string>: size for the meta data, advanced option\n                       (default: '-1')\n  -nr_sinks <long integer>: number of sinks in the sink file (default:\n                            20)\n  -sink_file <string>: sink file name (default: 'data.sink')\n  -verbose <integer>: write debug information to standard error\n                      (default: 0)\n  -?: print this message");
 }
