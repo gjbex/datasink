@@ -40,7 +40,13 @@ int main(int argc, char *argv[]) {
         show_meta_data(&meta_data);
     }
     check_sink_id(params.id, &meta_data, fp);
-    seek_data(fp, &meta_data, params.id);
+    if (params.append) {
+        size = read_data_size(fp, params.id);
+        seek_offset_data(fp, &meta_data, params.id, size);
+    } else {
+        size = 0;
+        seek_data(fp, &meta_data, params.id);
+    }
     for (;;) {
         int count = fread(buffer, sizeof(char), BUFF_SIZE, stdin);
         if (count == 0) {
