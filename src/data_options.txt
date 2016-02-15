@@ -1,3 +1,4 @@
 char *	sink_file	'''data.sink'''	data sink file to use
 long	id	-1	sink ID to use
 int	verbose	0	write debug information to standard error
+bool	append	0	append to sink
